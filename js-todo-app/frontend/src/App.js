@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import FormValidation from "./FormValidation";
 import TypeInferenceDemo from "./TypeInferenceDemo";
 import AutocompleteDemo from "./AutocompleteDemo";
-
+const API_URL = "http://localhost:3001";
 const App = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
   useEffect(() => {
-    fetch("/tasks")
+    fetch(`${API_URL}/tasks`)
       .then((res) => res.json())
       .then((data) => setTasks(data));
   }, []);
 
   const addTask = () => {
-    fetch("/tasks", {
+    fetch(`${API_URL}/tasks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newTask }),
@@ -27,7 +27,7 @@ const App = () => {
   };
 
   const markAsComplete = (id) => {
-    fetch(`/tasks/${id}`, { method: "PUT" })
+    fetch(`${API_URL}/tasks/${id}`, { method: "PUT" })
       .then(() => {
         setTasks(
           tasks.map((task) =>
@@ -38,7 +38,7 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    fetch(`/tasks/${id}`, { method: "DELETE" })
+    fetch(`${API_URL}/tasks/${id}`, { method: "DELETE" })
       .then(() => {
         setTasks(tasks.filter((task) => task.id !== id));
       });
